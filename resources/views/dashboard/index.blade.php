@@ -130,7 +130,8 @@
           <h3 class="title-display mt-2 text-2xl text-stone-950 sm:text-3xl">Link undangan yang dibuat</h3>
         </div>
         <button type="button" id="export-excel-btn" title="Export ke Excel"
-          class="rounded-full border border-green-900/15 bg-green-50 px-3 py-2 text-xs font-semibold text-green-900 transition hover:bg-green-100">📊 Export</button>
+          class="rounded-full border border-green-900/15 bg-green-50 px-3 py-2 text-xs font-semibold text-green-900 transition hover:bg-green-100">📊
+          Export</button>
       </div>
 
       <form id="guest-search-form" class="mt-5" method="GET" action="{{ route('dashboard') }}">
@@ -231,21 +232,21 @@
           const cells = [];
           const tds = row.querySelectorAll('td');
           if (tds.length === 0) return;
-          
+
           // Kolom 1: Nama Tamu
           const nameTd = tds[0];
           const nameEl = nameTd.querySelector('p.font-semibold');
           cells.push(nameEl ? nameEl.textContent.trim() : nameTd.textContent.trim());
-          
+
           // Kolom 2: Link Personal
           const linkTd = tds[1];
           const linkEl = linkTd.querySelector('a');
           cells.push(linkEl ? linkEl.textContent.trim() : linkTd.textContent.trim());
-          
+
           // Kolom 3: Dibuat
           const dateTd = tds[3];
           cells.push(dateTd ? dateTd.textContent.trim() : '');
-          
+
           rows.push(cells);
         });
 
@@ -255,7 +256,13 @@
         }
 
         const ws = XLSX.utils.aoa_to_sheet(rows);
-        ws['!cols'] = [{ wch: 30 }, { wch: 40 }, { wch: 15 }];
+        ws['!cols'] = [{
+          wch: 30
+        }, {
+          wch: 40
+        }, {
+          wch: 15
+        }];
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Daftar Tamu');
         XLSX.writeFile(wb, `daftar-tamu-${new Date().toISOString().split('T')[0]}.xlsx`);
